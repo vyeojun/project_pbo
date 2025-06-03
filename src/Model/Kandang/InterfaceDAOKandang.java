@@ -15,4 +15,6 @@ public interface InterfaceDAOKandang {
     public List<ModelKandang> getAll();
     public void insertProduksi(ModelProduksi produksi);
     public List<ModelProduksi> getAllProduksi();
+    public void editProduksi(ModelProduksi produksi);
+    public void hapusProduksi(int id);
 }

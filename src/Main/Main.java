@@ -4,13 +4,14 @@
  */
 package Main;
 
-import View.Kandang.*;
+import View.*;
+
 /**
  *
  * @author HP
  */
 public class Main {
     public static void main(String[] args) {
-       new ViewKandang();
+       new MainMenu();
     }
 }

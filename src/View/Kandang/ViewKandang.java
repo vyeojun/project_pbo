@@ -6,6 +6,7 @@ package View.Kandang;
 
 import Controller.ControllerKandang;
 import Model.Kandang.ModelKandang;
+import View.MainMenu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,24 +24,20 @@ public class ViewKandang extends JFrame {
 
     JLabel header = new JLabel("Manajemen Kandang Bebek");
     JButton tombolTambahKandang = new JButton("Tambah Kandang");
-    JButton tombolTambahProduksi = new JButton("Tambah Produksi Telur");
     JButton tombolEdit = new JButton("Edit Kandang");
     JButton tombolHapus = new JButton("Hapus Kandang");
+    JButton tombolBack = new JButton("Kembali ke Main Menu");
 
-    JTable tableKandang, tableProduksi;
-    DefaultTableModel tableModelKandang, tableModelProduksi;
-    JScrollPane scrollPaneKandang, scrollPaneProduksi;
+    JTable tableKandang;
+    DefaultTableModel tableModelKandang;
+    JScrollPane scrollPaneKandang;
 
-    String namaKolom[] = {"ID", "Nomor Kandang", "Jumlah Bebek", "Jumlah Telur", "Tanggal"};
+    String namaKolom[] = {"ID", "Nomor Kandang", "Jumlah Bebek"};
 
     public ViewKandang() {
         tableModelKandang = new DefaultTableModel(namaKolom, 0);
         tableKandang = new JTable(tableModelKandang);
         scrollPaneKandang = new JScrollPane(tableKandang);
-
-        tableModelProduksi = new DefaultTableModel(namaKolom, 0);
-        tableProduksi = new JTable(tableModelProduksi);
-        scrollPaneProduksi = new JScrollPane(tableProduksi);
 
         setTitle("Manajemen Kandang Bebek");
         setVisible(true);
@@ -51,23 +48,20 @@ public class ViewKandang extends JFrame {
 
         add(header);
         add(scrollPaneKandang);
-        add(scrollPaneProduksi);
         add(tombolTambahKandang);
-        add(tombolTambahProduksi);
         add(tombolEdit);
         add(tombolHapus);
+        add(tombolBack);
 
         header.setBounds(20, 8, 440, 24);
         scrollPaneKandang.setBounds(20, 36, 512, 200);
-        scrollPaneProduksi.setBounds(20, 260, 512, 200);
-        tombolTambahKandang.setBounds(20, 470, 256, 40);
-        tombolTambahProduksi.setBounds(276, 470, 256, 40);
-        tombolEdit.setBounds(20, 514, 512, 40);
-        tombolHapus.setBounds(20, 558, 512, 40);
+        tombolTambahKandang.setBounds(20, 250, 512, 40);
+        tombolEdit.setBounds(20, 300, 512, 40);
+        tombolHapus.setBounds(20, 350, 512, 40);
+        tombolBack.setBounds(20, 400, 512, 40);
 
         controller = new ControllerKandang(this);
         controller.showAllKandang();
-        controller.showAllProduksi();
 
         tableKandang.addMouseListener(new MouseAdapter() {
             @Override
@@ -80,17 +74,16 @@ public class ViewKandang extends JFrame {
         tombolTambahKandang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("yea");
                 dispose();
                 new InputData(false);
             }
         });
-
-        tombolTambahProduksi.addActionListener(new ActionListener() {
+        
+        tombolBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new InputData(true);
+                new MainMenu();
             }
         });
 
@@ -128,9 +121,5 @@ public class ViewKandang extends JFrame {
 
     public JTable getTableKandang() {
         return tableKandang;
-    }
-
-    public JTable getTableProduksi() {
-        return tableProduksi;
     }
 }

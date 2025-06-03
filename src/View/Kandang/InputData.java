@@ -20,7 +20,7 @@ public class InputData extends JFrame {
     JLabel labelJumlahBebek = new JLabel("Jumlah Bebek");
     JLabel labelKandangId = new JLabel("ID Kandang");
     JLabel labelJumlahTelur = new JLabel("Jumlah Telur");
-    JLabel labelTanggal = new JLabel("Tanggal (dd MM yyyy, e.g., 31 12 2025)");
+    JLabel labelTanggal = new JLabel("Tanggal (dd MM yyyy)");
     JTextField inputNomorKandang = new JTextField();
     JTextField inputJumlahBebek = new JTextField();
     JTextField inputKandangId = new JTextField();
@@ -92,7 +92,7 @@ public class InputData extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new ViewKandang();
+                new View.Kandang.ViewKandang();
             }
         });
 
