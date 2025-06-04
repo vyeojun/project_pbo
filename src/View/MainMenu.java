@@ -4,6 +4,7 @@
  */
 package View;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -13,7 +14,7 @@ import javax.swing.*;
  * @author HP
  */
 public class MainMenu extends JFrame {
-    JLabel header = new JLabel("Peternakan Bebek Management");
+    JLabel header = new JLabel("mY Peternakan Bebek (dm @wehateghiva)");
     JButton tombolKelolaKandang = new JButton("Kelola Kandang");
     JButton tombolKelolaProduksi = new JButton("Kelola Produksi");
 
@@ -24,6 +25,10 @@ public class MainMenu extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         setVisible(true);
+        
+        getContentPane().setBackground(Color.decode("#f69ae5"));
+        
+        
         add(header);
         add(tombolKelolaKandang);
         add(tombolKelolaProduksi);

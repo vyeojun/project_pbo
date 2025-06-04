@@ -5,6 +5,7 @@
 package View.Kandang;
 
 import Controller.ControllerKandang;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class InputDataKandang extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        getContentPane().setBackground(Color.decode("#f69ae5"));
 
         controller = new ControllerKandang(this);
         header = new JLabel("Input Kandang");

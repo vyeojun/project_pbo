@@ -7,6 +7,7 @@ package View.Kandang;
 import Controller.ControllerKandang;
 import Model.Kandang.ModelKandang;
 import View.MainMenu;
+import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +46,7 @@ public class ViewKandang extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         setSize(552, 640);
+        getContentPane().setBackground(Color.decode("#f69ae5"));
 
         add(header);
         add(scrollPaneKandang);

@@ -6,6 +6,7 @@ package View.Produksi;
 
 import Controller.ControllerProduksi;
 import Model.Produksi.ModelProduksi;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ public class EditDataProduksi extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        getContentPane().setBackground(Color.decode("#f69ae5"));
 
         header = new JLabel("Edit Produksi Telur");
 

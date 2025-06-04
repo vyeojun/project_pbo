@@ -5,6 +5,7 @@
 package View.Produksi;
 
 import Controller.ControllerProduksi;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -33,6 +34,7 @@ public class InputDataProduksi extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        getContentPane().setBackground(Color.decode("#f69ae5"));
 
         controller = new ControllerProduksi(this);
         header = new JLabel("Input Produksi Telur");
