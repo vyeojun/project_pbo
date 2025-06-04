@@ -6,6 +6,7 @@ package View.Produksi;
 
 import Controller.ControllerProduksi;
 import Model.Produksi.ModelProduksi;
+import View.Kandang.InputDataKandang;
 import View.MainMenu;
 
 import java.awt.event.ActionEvent;
@@ -91,7 +92,7 @@ public class ViewProduksi extends JFrame {
                 if (baris != null && baris >= 0 && baris < tableProduksi.getRowCount()) {
                     try {
                         ModelProduksi produksiTerpilih = new ModelProduksi();
-                        Integer id = (int) tableProduksi.getValueAt(baris, 0);
+                        String idStr = tableProduksi.getValueAt(baris, 0).toString(); // Ambil sebagai String
                         String kandangIdStr = tableProduksi.getValueAt(baris, 1).toString();
                         String jumlahTelurStr = tableProduksi.getValueAt(baris, 2).toString();
                         String tanggalStr = tableProduksi.getValueAt(baris, 3).toString();
@@ -99,22 +100,22 @@ public class ViewProduksi extends JFrame {
                         System.out.println("Tanggal dari tabel: " + tanggalStr); // Debug
 
                         // Validasi dan parsing
-                        if (!kandangIdStr.matches("\\d+") || !jumlahTelurStr.matches("\\d+")) {
-                            throw new NumberFormatException("ID Kandang atau Jumlah Telur harus berupa angka!");
+                        if (!idStr.matches("\\d+") || !kandangIdStr.matches("\\d+") || !jumlahTelurStr.matches("\\d+")) {
+                            throw new NumberFormatException("ID, ID Kandang, atau Jumlah Telur harus berupa angka!");
                         }
 
+                        int id = Integer.parseInt(idStr);
                         int kandangId = Integer.parseInt(kandangIdStr);
                         int jumlahTelur = Integer.parseInt(jumlahTelurStr);
 
-                        // Parsing tanggal dengan format dd MM yyyy
-                        String[] tanggalParts = tanggalStr.split("-");
+                        String[] tanggalParts = tanggalStr.split(" ");
                         if (tanggalParts.length != 3) {
-                            throw new IllegalArgumentException("Format tanggal tidak valid! Harus yyyy-MM-dd. Ditemukan: " + tanggalStr);
+                            throw new IllegalArgumentException("Format tanggal tidak valid! Harus dd MM yyyy. Ditemukan: " + tanggalStr);
                         }
-                            LocalDate tanggal = LocalDate.of(
-                            Integer.parseInt(tanggalParts[0]), // Tahun
-                                Integer.parseInt(tanggalParts[1]), // Bulan
-                           Integer.parseInt(tanggalParts[2])  // Hari
+                        LocalDate tanggal = LocalDate.of(
+                            Integer.parseInt(tanggalParts[2]), // Tahun
+                            Integer.parseInt(tanggalParts[1]), // Bulan
+                            Integer.parseInt(tanggalParts[0])  // Hari
                         );
 
                         produksiTerpilih.setId(id);
@@ -142,7 +143,12 @@ public class ViewProduksi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (baris != null && baris >= 0 && baris < tableProduksi.getRowCount()) {
-                    Integer id = (int) tableProduksi.getValueAt(baris, 0);
+                    String idStr = tableProduksi.getValueAt(baris, 0).toString(); // Ambil sebagai String
+                    if (!idStr.matches("\\d+")) {
+                        JOptionPane.showMessageDialog(null, "ID harus berupa angka!");
+                        return;
+                    }
+                    int id = Integer.parseInt(idStr);
                     controller.hapusProduksi(id);
                     baris = null;
                 } else {

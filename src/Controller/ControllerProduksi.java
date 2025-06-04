@@ -6,6 +6,7 @@ package Controller;
 
 import Model.Produksi.*;
 import Model.Produksi.ModelProduksi;
+import View.Produksi.*;
 
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,19 +20,19 @@ import javax.swing.table.DefaultTableModel;
  * @author zatri
  */
 public class ControllerProduksi {
-    private View.Produksi.ViewProduksi viewProduksi;
-    private View.Produksi.InputDataProduksi inputDataProduksi;
+    private ViewProduksi viewProduksi;
+    private InputDataProduksi inputDataProduksi;
     private View.Produksi.EditDataProduksi editDataProduksi;
     private InterfaceDAOProduksi daoProduksi;
     private List<ModelProduksi> daftarProduksi;
 
-    public ControllerProduksi(View.Produksi.ViewProduksi viewProduksi) {
+    public ControllerProduksi(ViewProduksi viewProduksi) {
         this.viewProduksi = viewProduksi;
         this.daoProduksi = new DAOProduksi();
         showAllProduksi();
     }
 
-    public ControllerProduksi(View.Produksi.InputDataProduksi inputDataProduksi) {
+    public ControllerProduksi(InputDataProduksi inputDataProduksi) {
         this.inputDataProduksi = inputDataProduksi;
         this.daoProduksi = new DAOProduksi();
     }
@@ -42,19 +43,19 @@ public class ControllerProduksi {
     }
 
     public void showAllProduksi() {
-    daftarProduksi = daoProduksi.getAllProduksi();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-    String[][] dataProduksi = new String[daftarProduksi.size()][4];
-    int i = 0;
-    for (ModelProduksi produksi : daftarProduksi) {
-        dataProduksi[i][0] = String.valueOf(produksi.getId());
-        dataProduksi[i][1] = String.valueOf(produksi.getKandangId());
-        dataProduksi[i][2] = String.valueOf(produksi.getJumlahTelur());
-        dataProduksi[i][3] = (produksi.getTanggal() != null) ? produksi.getTanggal().format(formatter) : "";
-        i++;
+        daftarProduksi = daoProduksi.getAllProduksi();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+        String[][] dataProduksi = new String[daftarProduksi.size()][4];
+        int i = 0;
+        for (ModelProduksi produksi : daftarProduksi) {
+            dataProduksi[i][0] = String.valueOf(produksi.getId());
+            dataProduksi[i][1] = String.valueOf(produksi.getKandangId());
+            dataProduksi[i][2] = String.valueOf(produksi.getJumlahTelur());
+            dataProduksi[i][3] = (produksi.getTanggal() != null) ? produksi.getTanggal().format(formatter) : "";
+            i++;
+        }
+        viewProduksi.getTableProduksi().setModel(new DefaultTableModel(dataProduksi, new String[]{"ID", "ID Kandang", "Jumlah Telur", "Tanggal"}));
     }
-    viewProduksi.getTableProduksi().setModel(new DefaultTableModel(dataProduksi, new String[]{"ID", "ID Kandang", "Jumlah Telur", "Tanggal"}));
-}
 
     public void insertProduksi() {
         try {
@@ -165,16 +166,15 @@ public class ControllerProduksi {
 
     public void hapusProduksi(int id) {
         try {
-            String confirm = JOptionPane.showInputDialog(null, "Masukkan ID produksi untuk konfirmasi: ");
-            if (confirm != null && confirm.equals(String.valueOf(id))) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus produksi dengan ID " + id + "?",
+                    "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
                 daoProduksi.hapusProduksi(id);
                 JOptionPane.showMessageDialog(null, "Produksi telur berhasil dihapus.");
                 showAllProduksi();
-            } else {
-                JOptionPane.showMessageDialog(null, "Konfirmasi ID salah atau dibatalkan.");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error menghapus produksi: " + e.getMessage());
             e.printStackTrace();
         }
     }

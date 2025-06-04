@@ -41,7 +41,6 @@ public class EditDataProduksi extends JFrame {
 
         header = new JLabel("Edit Produksi Telur");
 
-        // Set bounds for components
         header.setBounds(20, 20, 300, 30);
         labelKandangId.setBounds(20, 60, 150, 30);
         inputKandangId.setBounds(180, 60, 150, 30);
@@ -52,7 +51,6 @@ public class EditDataProduksi extends JFrame {
         tombolSimpan.setBounds(20, 200, 150, 40);
         tombolKembali.setBounds(180, 200, 150, 40);
 
-        // Add components
         add(header);
         add(labelKandangId);
         add(inputKandangId);
@@ -63,13 +61,11 @@ public class EditDataProduksi extends JFrame {
         add(tombolSimpan);
         add(tombolKembali);
 
-        // Isi field dengan data awal
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
         inputKandangId.setText(String.valueOf(produksi.getKandangId()));
         inputJumlahTelur.setText(String.valueOf(produksi.getJumlahTelur()));
         inputTanggal.setText(produksi.getTanggal().format(formatter));
 
-        // Action listeners
         tombolSimpan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,4 +95,4 @@ public class EditDataProduksi extends JFrame {
     public String getInputTanggal() {
         return inputTanggal.getText();
     }
-}   
+}
