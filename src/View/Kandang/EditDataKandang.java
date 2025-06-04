@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author HP
  */
-public class EditData extends JFrame {
+public class EditDataKandang extends JFrame {
     ControllerKandang controller;
     
     JLabel header = new JLabel("Edit Kandang");
@@ -24,7 +24,7 @@ public class EditData extends JFrame {
     JButton tombolEdit = new JButton("Edit Kandang");
     JButton tombolKembali = new JButton("Kembali");
 
-    public EditData(ModelKandang kandang) {
+    public EditDataKandang(ModelKandang kandang) {
         setTitle("Edit Kandang");
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

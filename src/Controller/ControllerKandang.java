@@ -18,24 +18,24 @@ import javax.swing.JOptionPane;
  */
 
 public class ControllerKandang {
-    private View.Kandang.ViewKandang viewKandang;
-    private View.Kandang.InputDataKandang inputDataKandang;
-    private View.Kandang.EditData editData;
+    private ViewKandang viewKandang;
+    private InputDataKandang inputDataKandang;
+    private EditDataKandang editData;
     private InterfaceDAOKandang daoKandang;
     private List<ModelKandang> daftarKandang;
 
-    public ControllerKandang(View.Kandang.ViewKandang viewKandang) {
+    public ControllerKandang(ViewKandang viewKandang) {
         this.viewKandang = viewKandang;
         this.daoKandang = new DAOKandang();
         showAllKandang();
     }
 
-    public ControllerKandang(View.Kandang.InputDataKandang inputDataKandang) {
+    public ControllerKandang(InputDataKandang inputDataKandang) {
         this.inputDataKandang = inputDataKandang;
         this.daoKandang = new DAOKandang();
     }
 
-    public ControllerKandang(View.Kandang.EditData editData) {
+    public ControllerKandang(View.Kandang.EditDataKandang editData) {
         this.editData = editData;
         this.daoKandang = new DAOKandang();
     }

@@ -99,7 +99,7 @@ public class ViewKandang extends JFrame {
                     kandangTerpilih.setNomorKandang(nomorKandang);
                     kandangTerpilih.setJumlahBebek(jumlahBebek);
                     dispose();
-                    new EditData(kandangTerpilih);
+                    new EditDataKandang(kandangTerpilih);
                 } else {
                     JOptionPane.showMessageDialog(null, "Pilih kandang terlebih dahulu.");
                 }
