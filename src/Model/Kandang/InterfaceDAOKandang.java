@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Model.Kandang;
+
 import java.util.List;
 /**
  *
@@ -13,8 +14,4 @@ public interface InterfaceDAOKandang {
     public void update(ModelKandang kandang);
     public void delete(int id);
     public List<ModelKandang> getAll();
-    public void insertProduksi(ModelProduksi produksi);
-    public List<ModelProduksi> getAllProduksi();
-    public void editProduksi(ModelProduksi produksi);
-    public void hapusProduksi(int id);
 }

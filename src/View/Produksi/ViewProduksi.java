@@ -4,8 +4,8 @@
  */
 package View.Produksi;
 
-import Controller.ControllerKandang;
-import Model.Kandang.ModelProduksi;
+import Controller.ControllerProduksi;
+import Model.Produksi.ModelProduksi;
 import View.MainMenu;
 
 import java.awt.event.ActionEvent;
@@ -21,20 +21,20 @@ import javax.swing.table.DefaultTableModel;
  * @author HP
  */
 public class ViewProduksi extends JFrame {
-    Integer baris;
-    ControllerKandang controller;
+    private Integer baris;
+    private ControllerProduksi controller;
 
-    JLabel header = new JLabel("Manajemen Produksi Telur");
-    JButton tombolTambahProduksi = new JButton("Tambah Produksi");
-    JButton tombolEditProduksi = new JButton("Edit Produksi");
-    JButton tombolHapusProduksi = new JButton("Hapus Produksi");
-    JButton tombolBack = new JButton("Kembali ke Main Menu");
+    private JLabel header = new JLabel("Manajemen Produksi Telur");
+    private JButton tombolTambahProduksi = new JButton("Tambah Produksi");
+    private JButton tombolEditProduksi = new JButton("Edit Produksi");
+    private JButton tombolHapusProduksi = new JButton("Hapus Produksi");
+    private JButton tombolBack = new JButton("Kembali ke Main Menu");
 
-    JTable tableProduksi;
-    DefaultTableModel tableModelProduksi;
-    JScrollPane scrollPaneProduksi;
+    private JTable tableProduksi;
+    private DefaultTableModel tableModelProduksi;
+    private JScrollPane scrollPaneProduksi;
 
-    String namaKolom[] = {"ID", "ID Kandang", "Jumlah Telur", "Tanggal"};
+    private String[] namaKolom = {"ID", "ID Kandang", "Jumlah Telur", "Tanggal"};
 
     public ViewProduksi() {
         tableModelProduksi = new DefaultTableModel(namaKolom, 0);
@@ -62,62 +62,76 @@ public class ViewProduksi extends JFrame {
         tombolHapusProduksi.setBounds(20, 350, 512, 40);
         tombolBack.setBounds(20, 400, 512, 40);
 
-        controller = new ControllerKandang(this);
+        controller = new ControllerProduksi(this);
         controller.showAllProduksi();
 
         tableProduksi.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 baris = tableProduksi.getSelectedRow();
+                if (baris != -1) {
+                    System.out.println("Baris dipilih: " + baris);
+                } else {
+                    System.out.println("Tidak ada baris yang dipilih.");
+                }
             }
         });
-        
-        tombolTambahProduksi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new View.Kandang.InputData(true);
-            }
-        }); 
-        
 
-        tombolBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new MainMenu();
-            }
-        });
-        
-        
         tombolTambahProduksi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new View.Kandang.InputData(true);
+                new InputDataProduksi();
             }
         });
 
         tombolEditProduksi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (baris != null) {
-                    ModelProduksi produksiTerpilih = new ModelProduksi();
-                    Integer id = (int) tableProduksi.getValueAt(baris, 0);
-                    int kandangId = Integer.parseInt(tableProduksi.getValueAt(baris, 1).toString());
-                    int jumlahTelur = Integer.parseInt(tableProduksi.getValueAt(baris, 2).toString());
-                    String tanggalStr = tableProduksi.getValueAt(baris, 3).toString();
-                    produksiTerpilih.setId(id);
-                    produksiTerpilih.setKandangId(kandangId);
-                    produksiTerpilih.setJumlahTelur(jumlahTelur);
-                    // Parse tanggal (assuming format dd MM yyyy from table)
-                    String[] tanggalParts = tanggalStr.split(" ");
-                    produksiTerpilih.setTanggal(LocalDate.of(Integer.parseInt(tanggalParts[2]), 
-                                                            Integer.parseInt(tanggalParts[1]), 
-                                                            Integer.parseInt(tanggalParts[0])));
-                    dispose();
-                    new EditDataProduksi(produksiTerpilih);
+                if (baris != null && baris >= 0 && baris < tableProduksi.getRowCount()) {
+                    try {
+                        ModelProduksi produksiTerpilih = new ModelProduksi();
+                        Integer id = (int) tableProduksi.getValueAt(baris, 0);
+                        String kandangIdStr = tableProduksi.getValueAt(baris, 1).toString();
+                        String jumlahTelurStr = tableProduksi.getValueAt(baris, 2).toString();
+                        String tanggalStr = tableProduksi.getValueAt(baris, 3).toString();
+
+                        System.out.println("Tanggal dari tabel: " + tanggalStr); // Debug
+
+                        // Validasi dan parsing
+                        if (!kandangIdStr.matches("\\d+") || !jumlahTelurStr.matches("\\d+")) {
+                            throw new NumberFormatException("ID Kandang atau Jumlah Telur harus berupa angka!");
+                        }
+
+                        int kandangId = Integer.parseInt(kandangIdStr);
+                        int jumlahTelur = Integer.parseInt(jumlahTelurStr);
+
+                        // Parsing tanggal dengan format dd MM yyyy
+                        String[] tanggalParts = tanggalStr.split("-");
+                        if (tanggalParts.length != 3) {
+                            throw new IllegalArgumentException("Format tanggal tidak valid! Harus yyyy-MM-dd. Ditemukan: " + tanggalStr);
+                        }
+                            LocalDate tanggal = LocalDate.of(
+                            Integer.parseInt(tanggalParts[0]), // Tahun
+                                Integer.parseInt(tanggalParts[1]), // Bulan
+                           Integer.parseInt(tanggalParts[2])  // Hari
+                        );
+
+                        produksiTerpilih.setId(id);
+                        produksiTerpilih.setKandangId(kandangId);
+                        produksiTerpilih.setJumlahTelur(jumlahTelur);
+                        produksiTerpilih.setTanggal(tanggal);
+
+                        dispose();
+                        new EditDataProduksi(produksiTerpilih);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                    } catch (IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                        ex.printStackTrace();
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Pilih produksi terlebih dahulu.");
                 }
@@ -127,13 +141,21 @@ public class ViewProduksi extends JFrame {
         tombolHapusProduksi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (baris != null) {
+                if (baris != null && baris >= 0 && baris < tableProduksi.getRowCount()) {
                     Integer id = (int) tableProduksi.getValueAt(baris, 0);
                     controller.hapusProduksi(id);
                     baris = null;
                 } else {
                     JOptionPane.showMessageDialog(null, "Pilih produksi terlebih dahulu.");
                 }
+            }
+        });
+
+        tombolBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new MainMenu();
             }
         });
     }

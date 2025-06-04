@@ -75,7 +75,7 @@ public class ViewKandang extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new InputData(false);
+                new InputDataKandang();
             }
         });
         
